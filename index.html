@@ -26,14 +26,14 @@
   var boxes=0;
   var immigrants=0;
   var homelesss=0;
-  var dumpsteres=0;
+  var garagees=0;
 
   //LOOPS
   var immigrant_interval;
   var homeless_interval;
   var pray_interval;
   var makebox_interval;
-  var dumsterdive_interval;
+  var dumpsterdive_interval;
   var holywater_interval;
   var pilgrim_interval;
   var sins_interval;
@@ -43,8 +43,8 @@
 
   //PRICES
   var immigrant_upgrade_price=10;
-  var dumpster_upgrade_price=1000000;
-  var small_dumpster_upgrade_price=100000;//fixed price, no need to save
+  var garage_upgrade_price=1000000;
+  var small_garage_upgrade_price=100000;//fixed price, no need to save
   var shelter_upgrade_price=500000;
   var homeless_upgrade_price=1000;
   var cathedral_upgrade_price=50000000;//fixed price, no need to save
@@ -59,7 +59,7 @@
 
   //MANUAL
   var holywater_speed=2000;
-  var dumsterdive_speed=1000;
+  var dumpsterdive_speed=1000;
   var sins_speed=4000;
   var tax_speed=3000;
   var dj_speed=3000;
@@ -73,7 +73,7 @@
 
   //UI
   var store_table_flag=0;
-  var small_dumpster_block_flag=1;//shown by default
+  var small_garage_block_flag=1;//shown by default
   var shelter_block_flag=0;
   var cathedral_block_flag=0;
   var css_flag=1;//light by default
@@ -88,8 +88,8 @@
   var boxes_label;
   var store_table;
   var immigrant_upgrade;
-  var dumpster_upgrade;
-  var dumpster_label;
+  var garage_upgrade;
+  var garage_label;
   var immigrant_label;
   var immigrant_pb;
   var rank_label;
@@ -98,16 +98,16 @@
   var prestige_limit_label;
   var prestige_label;
   var money_label;
-  var dumsterdive_upgrade;
-  var dumsterdive_pb;
-  var dumsterdive_block;
+  var dumpsterdive_upgrade;
+  var dumpsterdive_pb;
+  var dumpsterdive_block;
   var pray_button;
   var holiness_block;
   var dark;
   var light;
-  var small_dumpster_upgrade;
-  var small_dumpster_block;
-  var dumpster_block;
+  var small_garage_upgrade;
+  var small_garage_block;
+  var garage_block;
   var shelter_block;
   var holiness_label;
   var shelter_upgrade;
@@ -206,16 +206,16 @@
     shelter_upgrade=$("#shelter_upgrade");
     holiness_label=$("#holiness_label");
     shelter_block=$("#shelter_block");
-    dumpster_block=$("#dumpster_block");
-    small_dumpster_block=$("#small_dumpster_block");
-    small_dumpster_upgrade=$("#small_dumpster_upgrade");
+    garage_block=$("#garage_block");
+    small_garage_block=$("#small_garage_block");
+    small_garage_upgrade=$("#small_garage_upgrade");
     dark=$("#dark");
     light=$("#light");
     holiness_block=$("#holiness_block");
     pray_button=$("#pray_button");
-    dumsterdive_block=$("#dumsterdive_block");
-    dumsterdive_upgrade=$("#dumsterdive_upgrade");
-    dumsterdive_pb=$("#dumsterdive_pb");
+    dumpsterdive_block=$("#dumpsterdive_block");
+    dumpsterdive_upgrade=$("#dumpsterdive_upgrade");
+    dumpsterdive_pb=$("#dumpsterdive_pb");
     money_label=$("#money_label");
     prestige_label=$("#prestige_label");
     prestige_limit_label=$("#prestige_limit_label");
@@ -224,8 +224,8 @@
     rank_label=$("#rank_label");
     immigrant_pb=$("#immigrant_pb");
     immigrant_label=$("#immigrant_label");
-    dumpster_label=$("#dumpster_label");
-    dumpster_upgrade=$("#dumpster_upgrade");
+    garage_label=$("#garage_label");
+    garage_upgrade=$("#garage_upgrade");
     immigrant_upgrade=$("#immigrant_upgrade");
     store_table=$("#store_table");
     boxes_label=$("#boxes_label");
@@ -341,24 +341,24 @@
       Pray();
     });
 
-    dumsterdive_upgrade.click(function(){
+    dumpsterdive_upgrade.click(function(){
 
       var num=0;
 
       PlayAudio(1);
 
-      dumsterdive_pb.show();
-      dumsterdive_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');
+      dumpsterdive_pb.show();
+      dumpsterdive_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');
 
-      dumsterdive_interval=setInterval(function(){
+      dumpsterdive_interval=setInterval(function(){
         num++;
-        progress(num,dumsterdive_pb);
+        progress(num,dumpsterdive_pb);
 
         if(num>=100){
-          clearInterval(dumsterdive_interval);
-          progress(0,dumsterdive_pb);
-          //dumsterdive_pb.hide();
-          dumsterdive_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');
+          clearInterval(dumpsterdive_interval);
+          progress(0,dumpsterdive_pb);
+          //dumpsterdive_pb.hide();
+          dumpsterdive_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');
           money+=50000;
           PrestigeUpdate(1000);
           InventoryUpdate();
@@ -367,7 +367,7 @@
 
 
 
-      },dumsterdive_speed*speed_multiplier);
+      },dumpsterdive_speed*speed_multiplier);
     });
 
     dj_upgrade.click(function(){
@@ -582,9 +582,9 @@
       shelter_block_flag=2;//so that it's never shown again
     });
 
-    small_dumpster_upgrade.click(function(){
+    small_garage_upgrade.click(function(){
 
-      money=money-small_dumpster_upgrade_price;
+      money=money-small_garage_upgrade_price;
 
       PlayAudio(5);
 
@@ -599,19 +599,19 @@
 
       rank="<b>Local Minister</b>";
       rank_label.html(rank);
-      dumsterdive_block.show();
-      dumpster_block.show();
-      small_dumpster_block.hide();
-      small_dumpster_block_flag=2;
+      dumpsterdive_block.show();
+      garage_block.show();
+      small_garage_block.hide();
+      small_garage_block_flag=2;
 
 
       InventoryUpdate();
 
     });
 
-    dumpster_upgrade.click(function(){
+    garage_upgrade.click(function(){
       PlayAudio(5);
-      Builddumpster();
+      Buildgarage();
     });
 
     cathedral_upgrade.click(function(){
@@ -622,7 +622,7 @@
 
       cathedral_block_flag=2;
       cathedral_block.hide();
-      dumpster_block.hide();
+      garage_block.hide();
 
       if(pilgrimage==1){
       statue_upgrade_flag=1;
@@ -634,7 +634,7 @@
 
       money=money-cathedral_upgrade_price;
 
-      boxes+=500000*dumpsteres;
+      boxes+=500000*garagees;
 
       SaveGame();
       InventoryUpdate();
@@ -691,7 +691,7 @@
 
       if(tax<10){
         tax=10;
-        $("#tax_prestige_text").text("Lobbying. Increase dumpster tax by $5 per box");
+        $("#tax_prestige_text").text("Lobbying. Increase garage tax by $5 per box");
       }
       else{tax+=5;}
 
@@ -827,36 +827,36 @@
 
   }
 
-  function Builddumpster(){
+  function Buildgarage(){
 
-    dumpsteres++;
+    garagees++;
 
-    if(dumpsteres<10){
-      dumpster_label.text(dumpsteres+"/10");
-    }else{dumpster_label.text(dumpsteres);}
+    if(garagees<10){
+      garage_label.text(garagees+"/10");
+    }else{garage_label.text(garagees);}
 
 
-    boxes+=5000*dumpsteres;
+    boxes+=5000*garagees;
 
-    money=money-dumpster_upgrade_price;
+    money=money-garage_upgrade_price;
 
-    dumpster_upgrade_price=Math.ceil(dumpster_upgrade_price+dumpster_upgrade_price*0.3);
+    garage_upgrade_price=Math.ceil(garage_upgrade_price+garage_upgrade_price*0.3);
 
-    if(dumpsteres==1){
+    if(garagees==1){
       rank="<b>Priest</b>";
       rank_label.html(rank);
       PlayAudio(8);
       SaveGame();
     }
 
-    if(dumpsteres==10){
+    if(garagees==10){
       cathedral_block_flag=1;
       cathedral_block.show();
       PlayAudio(4);
       SaveGame();
     }
 
-    dumpster_upgrade.text("$" + numT(dumpster_upgrade_price));
+    garage_upgrade.text("$" + numT(garage_upgrade_price));
     InventoryUpdate();
 
     PrestigeUpdate(10000);
@@ -865,9 +865,9 @@
   function SaveGame(){
     let gameData = {
       player: [money,prestige_progress,prestige_limit,rank,holiness,holiness_limit],
-      entities: [boxes,immigrants,homelesss,dumpsteres],
-      ui: [css_flag,store_table_flag,shelter_block_flag,small_dumpster_block_flag,cathedral_block_flag,statue_upgrade_flag,vatican_upgrade_flag,bishop_upgrade_flag],
-      prices: [immigrant_upgrade_price,dumpster_upgrade_price,homeless_upgrade_price,bishop_upgrade_price],
+      entities: [boxes,immigrants,homelesss,garagees],
+      ui: [css_flag,store_table_flag,shelter_block_flag,small_garage_block_flag,cathedral_block_flag,statue_upgrade_flag,vatican_upgrade_flag,bishop_upgrade_flag],
+      prices: [immigrant_upgrade_price,garage_upgrade_price,homeless_upgrade_price,bishop_upgrade_price],
       prestige: [pilgrimage,speed_multiplier,makeboxing_multiplier,tax,praying_multiplier]
     };
     //let gameDataJSON = JSON.stringify(gameData);
@@ -920,14 +920,14 @@
     boxes=parseInt(gameData.entities[0]);//set by InventoryUpdate()
     immigrants=parseInt(gameData.entities[1]);immigrant_label.text(immigrants);if(immigrants>0){immigrant();}
     homelesss=parseInt(gameData.entities[2]);homeless_label.text(homelesss);if(homelesss>0){setTimeout('homeless();',250);homeless_block.show();}
-    dumpsteres=parseInt(gameData.entities[3]);
-                if(dumpsteres<10){
-                  dumpster_label.text(dumpsteres+"/10");
-                }else{dumpster_label.text(dumpsteres);}
+    garagees=parseInt(gameData.entities[3]);
+                if(garagees<10){
+                  garage_label.text(garagees+"/10");
+                }else{garage_label.text(garagees);}
 
     //PRICES
     immigrant_upgrade_price=parseInt(gameData.prices[0]);immigrant_upgrade.text( numT(immigrant_upgrade_price) + " boxes" );
-    dumpster_upgrade_price=parseInt(gameData.prices[1]);dumpster_upgrade.text("$" + numT(dumpster_upgrade_price));
+    garage_upgrade_price=parseInt(gameData.prices[1]);garage_upgrade.text("$" + numT(garage_upgrade_price));
     homeless_upgrade_price=parseInt(gameData.prices[2]);homeless_upgrade.text( "$" + numT(homeless_upgrade_price) );
     bishop_upgrade_price=parseInt(gameData.prices[3]);bishop_upgrade.text( "$" + numT(bishop_upgrade_price) );
 
@@ -951,20 +951,20 @@
                   pilgrimage=2;
                 }
     cathedral_block_flag=parseInt(gameData.ui[4]);
-                if(dumpsteres>=5 && cathedral_block_flag==1){
+                if(garagees>=5 && cathedral_block_flag==1){
                   cathedral_block.show();
                 }
-    small_dumpster_block_flag=parseInt(gameData.ui[3]);
-                if(small_dumpster_block_flag==1){
-                  small_dumpster_block.show();
+    small_garage_block_flag=parseInt(gameData.ui[3]);
+                if(small_garage_block_flag==1){
+                  small_garage_block.show();
                 }else{
-                  small_dumpster_block.hide();
+                  small_garage_block.hide();
                   if(holiness<13000){holiness_block.show();}
                   pray_button.show();
                   makebox_button.hide();
 
-                  dumsterdive_block.show();
-                  if(cathedral_block_flag!=2){dumpster_block.show();}
+                  dumpsterdive_block.show();
+                  if(cathedral_block_flag!=2){garage_block.show();}
                 }
 
     shelter_block_flag=parseInt(gameData.ui[2]);
@@ -1014,7 +1014,7 @@
                 }
 
     if(tax>=10){
-      $("#tax_prestige_text").text("Lobbying. Increase dumpster tax by $5 per box");
+      $("#tax_prestige_text").text("Lobbying. Increase garage tax by $5 per box");
     }
 
     InventoryUpdate();
@@ -1105,12 +1105,12 @@
     boxes=0;boxes_label.text(boxes);
     immigrants=0;immigrant_label.text(immigrants);
     homelesss=0;homeless_label.text(homelesss);
-    dumpsteres=0;dumpster_label.text("0/10");
+    garagees=0;garage_label.text("0/10");
 
     //LOOPS
     clearInterval(immigrant_interval);
     clearInterval(homeless_interval);
-    clearInterval(dumsterdive_interval);
+    clearInterval(dumpsterdive_interval);
     clearInterval(holywater_interval);
     clearInterval(makebox_interval);
     clearInterval(pray_interval);
@@ -1121,7 +1121,7 @@
 
     //UI
     store_table.hide();
-    dumsterdive_block.hide();
+    dumpsterdive_block.hide();
     dj_block.hide();
     holywater_block.hide();
     sins_block.hide();
@@ -1133,9 +1133,9 @@
     pope_block.hide();
     shelter_block.hide();
     homeless_block.hide();
-    dumpster_block.hide();
+    garage_block.hide();
     cathedral_block.hide();
-    small_dumpster_block.show();
+    small_garage_block.show();
     holiness_block.hide();
     holiness_complete_block.hide();
     pray_button.hide();
@@ -1148,7 +1148,7 @@
     //progress bars
     sins_pb.hide();progress(0,sins_pb);
     tax_pb.hide();progress(0,tax_pb);
-    dumsterdive_pb.hide();progress(0,dumsterdive_pb);
+    dumpsterdive_pb.hide();progress(0,dumpsterdive_pb);
     holywater_pb.hide();progress(0,holywater_pb);
     immigrant_pb.hide();progress(0,immigrant_pb);
     homeless_pb.hide();progress(0,homeless_pb);
@@ -1157,7 +1157,7 @@
     progress(0,makebox_pb);
     //buttons (these are "truck" loops, not managed by StoreState)
     holywater_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');
-    dumsterdive_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');
+    dumpsterdive_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');
     tax_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');
     sins_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');
     dj_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');
@@ -1166,7 +1166,7 @@
     //ui flags
     store_table_flag=0;
     shelter_block_flag=0;
-    small_dumpster_block_flag=1;
+    small_garage_block_flag=1;
     cathedral_block_flag=0;
     prestige_hide_flag=0;
     statue_upgrade_flag=0;
@@ -1175,8 +1175,8 @@
 
     //PRICES
     immigrant_upgrade_price=10;immigrant_upgrade.text( numT(immigrant_upgrade_price) + " boxes" );
-    dumpster_upgrade_price=1000000;dumpster_upgrade.text( "$" + numT(dumpster_upgrade_price) );
-    small_dumpster_upgrade_price=100000;//fixed price
+    garage_upgrade_price=1000000;garage_upgrade.text( "$" + numT(garage_upgrade_price) );
+    small_garage_upgrade_price=100000;//fixed price
     shelter_upgrade_price=500000;//fixed price
     vatican_upgrade_price=500000000;vatican_upgrade.text( "$" + numT(vatican_upgrade_price) ); //fixed price
     homeless_upgrade_price=1000;homeless_upgrade.text( "$" + numT(homeless_upgrade_price) );
@@ -1213,11 +1213,11 @@
     if(boxes-immigrant_upgrade_price>=0){immigrant_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
     else{immigrant_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');}
 
-    if(money-small_dumpster_upgrade_price>=0){small_dumpster_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
-    else{small_dumpster_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');}
+    if(money-small_garage_upgrade_price>=0){small_garage_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
+    else{small_garage_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');}
 
-    if(money-dumpster_upgrade_price>=0){dumpster_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
-    else{dumpster_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');}
+    if(money-garage_upgrade_price>=0){garage_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
+    else{garage_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');}
 
     if(money-shelter_upgrade_price>=0){shelter_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
     else{shelter_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');}
@@ -1243,7 +1243,7 @@
     //LOOPS
     clearInterval(immigrant_interval);
     clearInterval(homeless_interval);
-    clearInterval(dumsterdive_interval);
+    clearInterval(dumpsterdive_interval);
     clearInterval(holywater_interval);
     clearInterval(makebox_interval);
     clearInterval(pray_interval);
@@ -1312,7 +1312,7 @@
       case 1: $("#audio_click")[0].cloneNode(true).play(); break;
       case 2: $("#audio_box")[0].cloneNode(true).play(); break;
       case 3: $("#audio_tick")[0].cloneNode(true).play(); break;
-      case 4: $("#audio_dumpster")[0].cloneNode(true).play(); break;
+      case 4: $("#audio_garage")[0].cloneNode(true).play(); break;
       case 5: $("#audio_building")[0].cloneNode(true).play(); break;
       case 6: $("#audio_prestige")[0].cloneNode(true).play(); break;
       case 7: $("#audio_holiness")[0].cloneNode(true).play(); break;
@@ -1404,7 +1404,7 @@
     </tr>
     <tr class="prestige_item">
       <td class="store_item_content">
-        <span id="tax_prestige_text">Lobbying. Increase dumpster tax to $10 per box</span><br>
+        <span id="tax_prestige_text">Lobbying. Increase garage tax to $10 per box</span><br>
         Current tax: $<span id=current_tax_label>1</span><br><br>
         <button class="button2" id="tax_prestige_upgrade">Restart Game</button>
       </td>
@@ -1426,10 +1426,10 @@
             </td>
           </tr>
 
-          <tr class="store_item" id="small_dumpster_block">
+          <tr class="store_item" id="small_garage_block">
             <td class="store_item_content">
-              Scout out local dumpsters<br><br>
-              <button class="disabled2" id="small_dumpster_upgrade">$100 k</button>
+              Scout out local garages<br><br>
+              <button class="disabled2" id="small_garage_upgrade">$100 k</button>
             </td>
           </tr>
 
@@ -1441,11 +1441,11 @@
             </td>
           </tr>
 
-          <tr class="store_item" id="dumpster_block" style="display:none">
+          <tr class="store_item" id="garage_block" style="display:none">
             <td class="store_item_content">
-              Build a dumpster. Every dumpster adds more boxes<br>
-              dumpsteres: <span id="dumpster_label">0/5</span><br><br>
-              <button class="disabled2" id="dumpster_upgrade">$2 M</button>
+              Build a garage. Every garage adds more boxes<br>
+              garagees: <span id="garage_label">0/5</span><br><br>
+              <button class="disabled2" id="garage_upgrade">$2 M</button>
             </td>
           </tr>
 
@@ -1501,11 +1501,11 @@
       <td class="upgrades_container">
         <table class="store">
 
-          <tr class="store_item" id="dumsterdive_block" style="display:none">
+          <tr class="store_item" id="dumpsterdive_block" style="display:none">
             <td class="store_item_content">
-              Dumster dive for more boxes<br><br>
-              <div id="dumsterdive_pb" class="pb2" style="display:none"><div></div></div><br>
-              <button class="button2" id="dumsterdive_upgrade">Earn $50 k</button>
+              dumpster dive for more boxes<br><br>
+              <div id="dumpsterdive_pb" class="pb2" style="display:none"><div></div></div><br>
+              <button class="button2" id="dumpsterdive_upgrade">Earn $50 k</button>
             </td>
           </tr>
 
@@ -1527,7 +1527,7 @@
 
           <tr class="store_item" id="dj_block" style="display:none">
             <td class="store_item_content">
-              Rent out a dumpster for an epic DJ performance<br><br>
+              Rent out a garage for an epic DJ performance<br><br>
               <div id="dj_pb" class="pb2" style="display:none"><div></div></div><br>
               <button class="button2" id="dj_upgrade">Earn $500 k</button>
             </td>
@@ -1535,7 +1535,7 @@
 
           <tr class="store_item" id="tax_block" style="display:none">
             <td class="store_item_content">
-              Collect dumpster tax<br><br>
+              Collect garage tax<br><br>
               <div id="tax_pb" class="pb2" style="display:none"><div></div></div><br>
               <button class="button2" id="tax_upgrade">$1 per box</button>
             </td>
@@ -1560,7 +1560,7 @@
 
   <!--ENDGAME-->
   <div id="endgame_block" style="display:none;width:50%">
-    You are now <b>Pope</b>, head of the worldwide Catholic dumpster, and head of state of Vatican City. Your spiritual influence extends across a billion people.
+    You are now <b>Pope</b>, head of the worldwide Catholic garage, and head of state of Vatican City. Your spiritual influence extends across a billion people.
   </div>
 
 </div>
@@ -1578,7 +1578,7 @@
 <audio id="audio_tick" src="snd/tick2.wav" preload="auto"></audio>
 <audio id="audio_click" src="snd/click4.wav" preload="auto"></audio>
 <audio id="audio_box" src="snd/box2.wav" preload="auto"></audio>
-<audio id="audio_dumpster" src="snd/dumpster2.wav" preload="auto"></audio>
+<audio id="audio_garage" src="snd/garage2.wav" preload="auto"></audio>
 <audio id="audio_prestige" src="snd/prestige.wav" preload="auto"></audio>
 <audio id="audio_building" src="snd/building.wav" preload="auto"></audio>
 <audio id="audio_holiness" src="snd/holiness.wav" preload="auto"></audio>
