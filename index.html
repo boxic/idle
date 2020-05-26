@@ -15,10 +15,6 @@
 
 <script type="text/javascript">
 
-  //I wanna see the code!!!
-  //No worries, here it is:
-  //https://louigiverona.com/pope/index_dev.html
-
   //PLAYER
   var holiness=0;
   var holiness_limit=1000;
@@ -27,7 +23,7 @@
   var money=0;
 
   //ENTITIES
-  var believers=0;
+  var boxes=0;
   var preachers=0;
   var monks=0;
   var churches=0;
@@ -61,6 +57,7 @@
   var prestige_progress=0;
   var prestige_limit_flag=0;//have we reached prestige limit
 
+  //MANUAL
   var holywater_speed=2000;
   var wedding_speed=1000;
   var sins_speed=4000;
@@ -88,7 +85,7 @@
   //CACHE
   var preach_pb;
   var preach_button;
-  var believers_label;
+  var boxes_label;
   var store_table;
   var preacher_upgrade;
   var church_upgrade;
@@ -231,7 +228,7 @@
     church_upgrade=$("#church_upgrade");
     preacher_upgrade=$("#preacher_upgrade");
     store_table=$("#store_table");
-    believers_label=$("#believers_label");
+    boxes_label=$("#boxes_label");
     preach_pb=$("#preach_pb");
     preach_button=$("#preach_button");
 
@@ -305,7 +302,7 @@
       preacher_label.text(preachers);
 
       preacher_upgrade_price=Math.floor(preacher_upgrade_price+preacher_upgrade_price*0.8);
-      preacher_upgrade.text( numT(preacher_upgrade_price) + " believers" );
+      preacher_upgrade.text( numT(preacher_upgrade_price) + " boxes" );
       InventoryUpdate();
 
       if(preachers==1){
@@ -392,7 +389,7 @@
           //dj_pb.hide();
           dj_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');
           money+=500000;
-          believers+=Math.floor((Math.random() * 100) + 1);
+          boxes+=Math.floor((Math.random() * 100) + 1);
           PrestigeUpdate(100000);
           InventoryUpdate();
           PlayAudio(4);
@@ -477,7 +474,7 @@
           progress(0,tax_pb);
           //tax_pb.hide();
           tax_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');
-          money+=believers*tax;
+          money+=boxes*tax;
           PrestigeUpdate(10000);
           InventoryUpdate();
           PlayAudio(4);
@@ -506,7 +503,7 @@
           progress(0,tele_pb);
           //tele_pb.hide();
           tele_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');
-          believers+=Math.floor((Math.random() * 3) + 1)*100000;
+          boxes+=Math.floor((Math.random() * 3) + 1)*100000;
           PrestigeUpdate(100000);
           InventoryUpdate();
           PlayAudio(4);
@@ -570,7 +567,7 @@
       bishop_upgrade_price=Math.floor(bishop_upgrade_price+bishop_upgrade_price*0.15);
       bishop_upgrade.text( "$" + numT(bishop_upgrade_price) );
 
-      believers+=Math.floor((Math.random() * 10000000) + 10000000);
+      boxes+=Math.floor((Math.random() * 10000000) + 10000000);
       InventoryUpdate();
 
     });
@@ -637,7 +634,7 @@
 
       money=money-cathedral_upgrade_price;
 
-      believers+=500000*churches;
+      boxes+=500000*churches;
 
       SaveGame();
       InventoryUpdate();
@@ -694,12 +691,12 @@
 
       if(tax<10){
         tax=10;
-        $("#tax_prestige_text").text("Lobbying. Increase church tax by $5 per believer");
+        $("#tax_prestige_text").text("Lobbying. Increase church tax by $5 per box");
       }
       else{tax+=5;}
 
 
-      tax_upgrade.text("$"+tax+" per believer");
+      tax_upgrade.text("$"+tax+" per box");
       current_tax_label.text(tax);
 
       Init();
@@ -781,7 +778,7 @@
 
       if(num>=100){
         clearInterval(preach_interval);
-        believers+=preaching_multiplier;
+        boxes+=preaching_multiplier;
         money+=Math.floor((Math.random() * 500) + 1)*preaching_multiplier;
         InventoryUpdate();
 
@@ -789,7 +786,7 @@
 
         PlayAudio(2);
 
-        if(store_table_flag==0 && believers>=5){
+        if(store_table_flag==0 && boxes>=5){
           store_table_flag=1;
           prestige_progress=0;
           prestige_label.text(prestige_progress);
@@ -817,7 +814,7 @@
         progress(num,preacher_pb);
 
         if(num>=100){
-          believers+=preachers*preaching_multiplier;
+          boxes+=preachers*preaching_multiplier;
           money+=(Math.floor((Math.random() * 500) + 1))*preachers*preaching_multiplier;
           InventoryUpdate();
 
@@ -839,7 +836,7 @@
     }else{church_label.text(churches);}
 
 
-    believers+=5000*churches;
+    boxes+=5000*churches;
 
     money=money-church_upgrade_price;
 
@@ -868,7 +865,7 @@
   function SaveGame(){
     let gameData = {
       player: [money,prestige_progress,prestige_limit,rank,holiness,holiness_limit],
-      entities: [believers,preachers,monks,churches],
+      entities: [boxes,preachers,monks,churches],
       ui: [css_flag,store_table_flag,monastery_block_flag,small_church_block_flag,cathedral_block_flag,statue_upgrade_flag,vatican_upgrade_flag,bishop_upgrade_flag],
       prices: [preacher_upgrade_price,church_upgrade_price,monk_upgrade_price,bishop_upgrade_price],
       prestige: [pilgrimage,speed_multiplier,preaching_multiplier,tax,praying_multiplier]
@@ -920,7 +917,7 @@
 
 
     //ENTITIES
-    believers=parseInt(gameData.entities[0]);//set by InventoryUpdate()
+    boxes=parseInt(gameData.entities[0]);//set by InventoryUpdate()
     preachers=parseInt(gameData.entities[1]);preacher_label.text(preachers);if(preachers>0){Preacher();}
     monks=parseInt(gameData.entities[2]);monk_label.text(monks);if(monks>0){setTimeout('Monk();',250);monk_block.show();}
     churches=parseInt(gameData.entities[3]);
@@ -929,7 +926,7 @@
                 }else{church_label.text(churches);}
 
     //PRICES
-    preacher_upgrade_price=parseInt(gameData.prices[0]);preacher_upgrade.text( numT(preacher_upgrade_price) + " believers" );
+    preacher_upgrade_price=parseInt(gameData.prices[0]);preacher_upgrade.text( numT(preacher_upgrade_price) + " boxes" );
     church_upgrade_price=parseInt(gameData.prices[1]);church_upgrade.text("$" + numT(church_upgrade_price));
     monk_upgrade_price=parseInt(gameData.prices[2]);monk_upgrade.text( "$" + numT(monk_upgrade_price) );
     bishop_upgrade_price=parseInt(gameData.prices[3]);bishop_upgrade.text( "$" + numT(bishop_upgrade_price) );
@@ -995,7 +992,7 @@
                   praying_prestige_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');
                 }
     tax=parseInt(gameData.prestige[3]);
-                  tax_upgrade.text("$"+tax+" per believer");
+                  tax_upgrade.text("$"+tax+" per box");
                   current_tax_label.text(tax);
     preaching_multiplier=parseInt(gameData.prestige[2]);
                 if(preaching_multiplier==10){
@@ -1017,7 +1014,7 @@
                 }
 
     if(tax>=10){
-      $("#tax_prestige_text").text("Lobbying. Increase church tax by $5 per believer");
+      $("#tax_prestige_text").text("Lobbying. Increase church tax by $5 per box");
     }
 
     InventoryUpdate();
@@ -1076,7 +1073,7 @@
   }
 
   function InventoryUpdate(){
-    believers_label.text(numT(believers));
+    boxes_label.text(numT(boxes));
     money_label.text(numT(money));
     StoreState();
 
@@ -1105,7 +1102,7 @@
     money=0;money_label.text(numT(money));
 
     //ENTITIES
-    believers=0;believers_label.text(believers);
+    boxes=0;boxes_label.text(boxes);
     preachers=0;preacher_label.text(preachers);
     monks=0;monk_label.text(monks);
     churches=0;church_label.text("0/10");
@@ -1177,7 +1174,7 @@
     bishop_upgrade_flag=0;
 
     //PRICES
-    preacher_upgrade_price=10;preacher_upgrade.text( numT(preacher_upgrade_price) + " believers" );
+    preacher_upgrade_price=10;preacher_upgrade.text( numT(preacher_upgrade_price) + " boxes" );
     church_upgrade_price=1000000;church_upgrade.text( "$" + numT(church_upgrade_price) );
     small_church_upgrade_price=100000;//fixed price
     monastery_upgrade_price=500000;//fixed price
@@ -1213,7 +1210,7 @@
 
   function StoreState(){
 
-    if(believers-preacher_upgrade_price>=0){preacher_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
+    if(boxes-preacher_upgrade_price>=0){preacher_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
     else{preacher_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');}
 
     if(money-small_church_upgrade_price>=0){small_church_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
@@ -1237,7 +1234,7 @@
     if(money-bishop_upgrade_price>=0){bishop_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
     else{bishop_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');}
 
-    if(believers-pope_upgrade_price>=0){pope_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
+    if(boxes-pope_upgrade_price>=0){pope_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
     else{pope_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');}
 
   }
@@ -1313,7 +1310,7 @@
   function PlayAudio(snd){
     switch(snd){
       case 1: $("#audio_click")[0].cloneNode(true).play(); break;
-      case 2: $("#audio_believer")[0].cloneNode(true).play(); break;
+      case 2: $("#audio_box")[0].cloneNode(true).play(); break;
       case 3: $("#audio_tick")[0].cloneNode(true).play(); break;
       case 4: $("#audio_church")[0].cloneNode(true).play(); break;
       case 5: $("#audio_building")[0].cloneNode(true).play(); break;
@@ -1353,9 +1350,9 @@
   <table id="inventory_table">
     <tr>
       <td>
-        Believers:
+        boxes:
       </td>
-      <td><span id="believers_label">0</span></td>
+      <td><span id="boxes_label">0</span></td>
     </tr>
     <tr>
       <td>
@@ -1407,7 +1404,7 @@
     </tr>
     <tr class="prestige_item">
       <td class="store_item_content">
-        <span id="tax_prestige_text">Lobbying. Increase church tax to $10 per believer</span><br>
+        <span id="tax_prestige_text">Lobbying. Increase church tax to $10 per box</span><br>
         Current tax: $<span id=current_tax_label>1</span><br><br>
         <button class="button2" id="tax_prestige_upgrade">Restart Game</button>
       </td>
@@ -1425,7 +1422,7 @@
               Recruit preachers to help you spread the word<br>
               Preachers: <span id="preacher_label">0</span><br><br>
               <div id="preacher_pb" class="pb2" style="display:none"><div></div></div><br>
-              <button class="disabled2" id="preacher_upgrade">10 believers</button>
+              <button class="disabled2" id="preacher_upgrade">10 boxes</button>
             </td>
           </tr>
 
@@ -1446,7 +1443,7 @@
 
           <tr class="store_item" id="church_block" style="display:none">
             <td class="store_item_content">
-              Build a church. Every church adds more believers<br>
+              Build a church. Every church adds more boxes<br>
               Churches: <span id="church_label">0/5</span><br><br>
               <button class="disabled2" id="church_upgrade">$2 M</button>
             </td>
@@ -1485,13 +1482,13 @@
           <tr class="store_item" id="pope_block" style="display:none">
             <td class="store_item_content">
               Become Pope<br><br>
-              <button class="disabled2" id="pope_upgrade">1 B believers</button>
+              <button class="disabled2" id="pope_upgrade">1 B boxes</button>
             </td>
           </tr>
 
           <tr class="store_item" id="bishop_block" style="display:none">
             <td class="store_item_content">
-              Support a bishop to assign their believers to your own<br><br>
+              Support a bishop to assign their boxes to your own<br><br>
               <button class="disabled2" id="bishop_upgrade">$500 k</button>
             </td>
           </tr>
@@ -1540,7 +1537,7 @@
             <td class="store_item_content">
               Collect church tax<br><br>
               <div id="tax_pb" class="pb2" style="display:none"><div></div></div><br>
-              <button class="button2" id="tax_upgrade">$1 per believer</button>
+              <button class="button2" id="tax_upgrade">$1 per box</button>
             </td>
           </tr>
 
@@ -1564,17 +1561,6 @@
   <!--ENDGAME-->
   <div id="endgame_block" style="display:none;width:50%">
     You are now <b>Pope</b>, head of the worldwide Catholic Church, and head of state of Vatican City. Your spiritual influence extends across a billion people.
-    <br><br><br>
-    But the adventure does not have to end here. From this spot you have several options:
-    <br><br>
-    <ul>
-      <li><button class="button2" id="reset_game">Play "Become Pope" from start</button></li>
-      <li><a class="standard" href="https://louigiverona.com/bananas/" target="_blank">Eat bananas</a></li>
-      <li>Become a <a class="standard" href="https://louigiverona.com/perfectionist/" target="_blank">Perfectionist</a></li>
-      <li><a class="standard" href="https://louigiverona.com/vcf/" target="_blank">Build Verteron Controllers</a></li>
-    </ul>
-    <br><br>
-     Choose your path, adventurer!
   </div>
 
 </div>
@@ -1586,12 +1572,12 @@
 <div class="footer">
   <button class="button2" id="dark">Dark mode</button>
   <button class="button2" id="light" style="display:none">Light mode</button>
-  <span class="signature"><a class="standard" href="https://louigiverona.com">Louigi Verona's Workshop</a></span>
+  <span class="signature"><a class="standard" href="https://twitter.com/BoxicKnowsBest">Louigi Verona's Workshop</a></span>
 </div>
 
 <audio id="audio_tick" src="snd/tick2.wav" preload="auto"></audio>
 <audio id="audio_click" src="snd/click4.wav" preload="auto"></audio>
-<audio id="audio_believer" src="snd/believer2.wav" preload="auto"></audio>
+<audio id="audio_box" src="snd/box2.wav" preload="auto"></audio>
 <audio id="audio_church" src="snd/church2.wav" preload="auto"></audio>
 <audio id="audio_prestige" src="snd/prestige.wav" preload="auto"></audio>
 <audio id="audio_building" src="snd/building.wav" preload="auto"></audio>
