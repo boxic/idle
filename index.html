@@ -19,20 +19,20 @@
   var holiness=0;
   var holiness_limit=1000;
   var holiness_level=0;
-  var rank="<b>Preacher</b>";
+  var rank="<b>boxmaker</b>";
   var money=0;
 
   //ENTITIES
   var boxes=0;
-  var preachers=0;
+  var boxmakers=0;
   var monks=0;
   var churches=0;
 
   //LOOPS
-  var preacher_interval;
+  var boxmaker_interval;
   var monk_interval;
   var pray_interval;
-  var preach_interval;
+  var makebox_interval;
   var wedding_interval;
   var holywater_interval;
   var pilgrim_interval;
@@ -42,7 +42,7 @@
   var dj_interval;
 
   //PRICES
-  var preacher_upgrade_price=10;
+  var boxmaker_upgrade_price=10;
   var church_upgrade_price=1000000;
   var small_church_upgrade_price=100000;//fixed price, no need to save
   var monastery_upgrade_price=500000;
@@ -66,7 +66,7 @@
 
   //PRESTIGE MULTIPLIERS
   var speed_multiplier=1;
-  var preaching_multiplier=1;
+  var makeboxing_multiplier=1;
   var praying_multiplier=1;
   var pilgrimage=0;
   var tax=1;
@@ -83,15 +83,15 @@
   var bishop_upgrade_flag=0;
 
   //CACHE
-  var preach_pb;
-  var preach_button;
+  var makebox_pb;
+  var makebox_button;
   var boxes_label;
   var store_table;
-  var preacher_upgrade;
+  var boxmaker_upgrade;
   var church_upgrade;
   var church_label;
-  var preacher_label;
-  var preacher_pb;
+  var boxmaker_label;
+  var boxmaker_pb;
   var rank_label;
   var prestige_table;
   var prestige_counter;
@@ -121,7 +121,7 @@
   var holywater_upgrade;
   var pilgrimage_prestige_upgrade;
   var speed_prestige_upgrade;
-  var preaching_prestige_upgrade;
+  var makeboxing_prestige_upgrade;
   var resume_game;
   var resume_game_block;
   var player_table;
@@ -192,7 +192,7 @@
     player_table=$("#player_table");
     resume_game=$("#resume_game");
     resume_game_block=$("#resume_game_block");
-    preaching_prestige_upgrade=$("#preaching_prestige_upgrade");
+    makeboxing_prestige_upgrade=$("#makeboxing_prestige_upgrade");
     speed_prestige_upgrade=$("#speed_prestige_upgrade");
     pilgrimage_prestige_upgrade=$("#pilgrimage_prestige_upgrade");
     holywater_upgrade=$("#holywater_upgrade");
@@ -222,15 +222,15 @@
     prestige_counter=$("#prestige_counter");
     prestige_table=$("#prestige_table");
     rank_label=$("#rank_label");
-    preacher_pb=$("#preacher_pb");
-    preacher_label=$("#preacher_label");
+    boxmaker_pb=$("#boxmaker_pb");
+    boxmaker_label=$("#boxmaker_label");
     church_label=$("#church_label");
     church_upgrade=$("#church_upgrade");
-    preacher_upgrade=$("#preacher_upgrade");
+    boxmaker_upgrade=$("#boxmaker_upgrade");
     store_table=$("#store_table");
     boxes_label=$("#boxes_label");
-    preach_pb=$("#preach_pb");
-    preach_button=$("#preach_button");
+    makebox_pb=$("#makebox_pb");
+    makebox_button=$("#makebox_button");
 
     if(localStorage.getItem("popeGameData")){
       resume_game_block.show();
@@ -294,19 +294,19 @@
       LoadGame();
     });
 
-    preacher_upgrade.click(function(){
+    boxmaker_upgrade.click(function(){
       PlayAudio(1);
 
 
-      preachers++;
-      preacher_label.text(preachers);
+      boxmakers++;
+      boxmaker_label.text(boxmakers);
 
-      preacher_upgrade_price=Math.floor(preacher_upgrade_price+preacher_upgrade_price*0.8);
-      preacher_upgrade.text( numT(preacher_upgrade_price) + " boxes" );
+      boxmaker_upgrade_price=Math.floor(boxmaker_upgrade_price+boxmaker_upgrade_price*0.8);
+      boxmaker_upgrade.text( numT(boxmaker_upgrade_price) + " boxes" );
       InventoryUpdate();
 
-      if(preachers==1){
-        Preacher();
+      if(boxmakers==1){
+        boxmaker();
       }
 
 
@@ -331,9 +331,9 @@
       }
     });
 
-    preach_button.click(function(){
+    makebox_button.click(function(){
       PlayAudio(1);
-      Preach();
+      makebox();
     });
 
     pray_button.click(function(){
@@ -590,11 +590,11 @@
 
       holiness_block.show();
       pray_button.show();
-      preach_button.hide();
-      if(preachers<=0){
-        preachers++;
-        preacher_label.text(preachers);
-        Preacher();
+      makebox_button.hide();
+      if(boxmakers<=0){
+        boxmakers++;
+        boxmaker_label.text(boxmakers);
+        boxmaker();
       }
 
       rank="<b>Local Minister</b>";
@@ -640,12 +640,12 @@
       InventoryUpdate();
     });
 
-    preaching_prestige_upgrade.click(function(){
+    makeboxing_prestige_upgrade.click(function(){
       PlayAudio(1);
 
-      preaching_multiplier=10;
-      preaching_prestige_upgrade.text("Used");
-      preaching_prestige_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');
+      makeboxing_multiplier=10;
+      makeboxing_prestige_upgrade.text("Used");
+      makeboxing_prestige_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');
 
       Init();
 
@@ -721,7 +721,7 @@
     pray_interval=setInterval(function() {
       num++;
       PrayDisable();
-      progress(num,preach_pb);
+      progress(num,makebox_pb);
 
       if(num>=100){
         clearInterval(pray_interval);
@@ -732,7 +732,7 @@
 
         PlayAudio(2);
 
-        progress(0,preach_pb);PrayEnable();
+        progress(0,makebox_pb);PrayEnable();
 
       }
 
@@ -766,23 +766,23 @@
 
   }
 
-  function Preach(){
+  function makebox(){
 
     var num=0;
 
-    preach_interval=setInterval(function() {
+    makebox_interval=setInterval(function() {
 
       num++;
-      PreachDisable();
-      progress(num,preach_pb);
+      makeboxDisable();
+      progress(num,makebox_pb);
 
       if(num>=100){
-        clearInterval(preach_interval);
-        boxes+=preaching_multiplier;
-        money+=Math.floor((Math.random() * 500) + 1)*preaching_multiplier;
+        clearInterval(makebox_interval);
+        boxes+=makeboxing_multiplier;
+        money+=Math.floor((Math.random() * 500) + 1)*makeboxing_multiplier;
         InventoryUpdate();
 
-        PrestigeUpdate(1*preaching_multiplier);
+        PrestigeUpdate(1*makeboxing_multiplier);
 
         PlayAudio(2);
 
@@ -794,31 +794,31 @@
           prestige_counter.show();
         }
 
-        progress(0,preach_pb);PreachEnable();
+        progress(0,makebox_pb);makeboxEnable();
 
       }
 
     }, 10);
   }
 
-  function Preacher(){
+  function boxmaker(){
 
       var num=0;
 
-      preacher_pb.show();
+      boxmaker_pb.show();
 
-      preacher_interval=setInterval(function() {
+      boxmaker_interval=setInterval(function() {
 
         num++;
         if(num>100)num=0;
-        progress(num,preacher_pb);
+        progress(num,boxmaker_pb);
 
         if(num>=100){
-          boxes+=preachers*preaching_multiplier;
-          money+=(Math.floor((Math.random() * 500) + 1))*preachers*preaching_multiplier;
+          boxes+=boxmakers*makeboxing_multiplier;
+          money+=(Math.floor((Math.random() * 500) + 1))*boxmakers*makeboxing_multiplier;
           InventoryUpdate();
 
-          PrestigeUpdate(1*preachers*preaching_multiplier);
+          PrestigeUpdate(1*boxmakers*makeboxing_multiplier);
           PlayAudio(3);
 
         }
@@ -865,10 +865,10 @@
   function SaveGame(){
     let gameData = {
       player: [money,prestige_progress,prestige_limit,rank,holiness,holiness_limit],
-      entities: [boxes,preachers,monks,churches],
+      entities: [boxes,boxmakers,monks,churches],
       ui: [css_flag,store_table_flag,monastery_block_flag,small_church_block_flag,cathedral_block_flag,statue_upgrade_flag,vatican_upgrade_flag,bishop_upgrade_flag],
-      prices: [preacher_upgrade_price,church_upgrade_price,monk_upgrade_price,bishop_upgrade_price],
-      prestige: [pilgrimage,speed_multiplier,preaching_multiplier,tax,praying_multiplier]
+      prices: [boxmaker_upgrade_price,church_upgrade_price,monk_upgrade_price,bishop_upgrade_price],
+      prestige: [pilgrimage,speed_multiplier,makeboxing_multiplier,tax,praying_multiplier]
     };
     //let gameDataJSON = JSON.stringify(gameData);
     //localStorage.setItem("popeGameData", gameDataJSON);
@@ -918,7 +918,7 @@
 
     //ENTITIES
     boxes=parseInt(gameData.entities[0]);//set by InventoryUpdate()
-    preachers=parseInt(gameData.entities[1]);preacher_label.text(preachers);if(preachers>0){Preacher();}
+    boxmakers=parseInt(gameData.entities[1]);boxmaker_label.text(boxmakers);if(boxmakers>0){boxmaker();}
     monks=parseInt(gameData.entities[2]);monk_label.text(monks);if(monks>0){setTimeout('Monk();',250);monk_block.show();}
     churches=parseInt(gameData.entities[3]);
                 if(churches<10){
@@ -926,7 +926,7 @@
                 }else{church_label.text(churches);}
 
     //PRICES
-    preacher_upgrade_price=parseInt(gameData.prices[0]);preacher_upgrade.text( numT(preacher_upgrade_price) + " boxes" );
+    boxmaker_upgrade_price=parseInt(gameData.prices[0]);boxmaker_upgrade.text( numT(boxmaker_upgrade_price) + " boxes" );
     church_upgrade_price=parseInt(gameData.prices[1]);church_upgrade.text("$" + numT(church_upgrade_price));
     monk_upgrade_price=parseInt(gameData.prices[2]);monk_upgrade.text( "$" + numT(monk_upgrade_price) );
     bishop_upgrade_price=parseInt(gameData.prices[3]);bishop_upgrade.text( "$" + numT(bishop_upgrade_price) );
@@ -961,7 +961,7 @@
                   small_church_block.hide();
                   if(holiness<13000){holiness_block.show();}
                   pray_button.show();
-                  preach_button.hide();
+                  makebox_button.hide();
 
                   wedding_block.show();
                   if(cathedral_block_flag!=2){church_block.show();}
@@ -994,10 +994,10 @@
     tax=parseInt(gameData.prestige[3]);
                   tax_upgrade.text("$"+tax+" per box");
                   current_tax_label.text(tax);
-    preaching_multiplier=parseInt(gameData.prestige[2]);
-                if(preaching_multiplier==10){
-                  preaching_prestige_upgrade.text("Used");
-                  preaching_prestige_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');
+    makeboxing_multiplier=parseInt(gameData.prestige[2]);
+                if(makeboxing_multiplier==10){
+                  makeboxing_prestige_upgrade.text("Used");
+                  makeboxing_prestige_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');
                 }
     speed_multiplier=parseFloat(gameData.prestige[1]);
                 if(speed_multiplier==0.1){
@@ -1098,21 +1098,21 @@
     holiness=0;holiness_label.text(0);
     holiness_limit=1000;holiness_limit_label.text(numT(holiness_limit));
     holiness_level=0;
-    rank="<b>Preacher</b>";rank_label.html(rank);
+    rank="<b>boxmaker</b>";rank_label.html(rank);
     money=0;money_label.text(numT(money));
 
     //ENTITIES
     boxes=0;boxes_label.text(boxes);
-    preachers=0;preacher_label.text(preachers);
+    boxmakers=0;boxmaker_label.text(boxmakers);
     monks=0;monk_label.text(monks);
     churches=0;church_label.text("0/10");
 
     //LOOPS
-    clearInterval(preacher_interval);
+    clearInterval(boxmaker_interval);
     clearInterval(monk_interval);
     clearInterval(wedding_interval);
     clearInterval(holywater_interval);
-    clearInterval(preach_interval);
+    clearInterval(makebox_interval);
     clearInterval(pray_interval);
     clearInterval(sins_interval);
     clearInterval(tax_interval);
@@ -1139,7 +1139,7 @@
     holiness_block.hide();
     holiness_complete_block.hide();
     pray_button.hide();
-    preach_button.show();
+    makebox_button.show();
     prestige_table.hide();
     prestige_counter.hide();
     prestige_hide.html("Hide Prestige &#x25B2;");
@@ -1150,11 +1150,11 @@
     tax_pb.hide();progress(0,tax_pb);
     wedding_pb.hide();progress(0,wedding_pb);
     holywater_pb.hide();progress(0,holywater_pb);
-    preacher_pb.hide();progress(0,preacher_pb);
+    boxmaker_pb.hide();progress(0,boxmaker_pb);
     monk_pb.hide();progress(0,monk_pb);
     tele_pb.hide();progress(0,tele_pb);
     dj_pb.hide();progress(0,dj_pb);
-    progress(0,preach_pb);
+    progress(0,makebox_pb);
     //buttons (these are "truck" loops, not managed by StoreState)
     holywater_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');
     wedding_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');
@@ -1174,7 +1174,7 @@
     bishop_upgrade_flag=0;
 
     //PRICES
-    preacher_upgrade_price=10;preacher_upgrade.text( numT(preacher_upgrade_price) + " boxes" );
+    boxmaker_upgrade_price=10;boxmaker_upgrade.text( numT(boxmaker_upgrade_price) + " boxes" );
     church_upgrade_price=1000000;church_upgrade.text( "$" + numT(church_upgrade_price) );
     small_church_upgrade_price=100000;//fixed price
     monastery_upgrade_price=500000;//fixed price
@@ -1210,8 +1210,8 @@
 
   function StoreState(){
 
-    if(boxes-preacher_upgrade_price>=0){preacher_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
-    else{preacher_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');}
+    if(boxes-boxmaker_upgrade_price>=0){boxmaker_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
+    else{boxmaker_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');}
 
     if(money-small_church_upgrade_price>=0){small_church_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
     else{small_church_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');}
@@ -1241,11 +1241,11 @@
 
   function EndGame(){
     //LOOPS
-    clearInterval(preacher_interval);
+    clearInterval(boxmaker_interval);
     clearInterval(monk_interval);
     clearInterval(wedding_interval);
     clearInterval(holywater_interval);
-    clearInterval(preach_interval);
+    clearInterval(makebox_interval);
     clearInterval(pray_interval);
     clearInterval(sins_interval);
     clearInterval(tax_interval);
@@ -1261,11 +1261,11 @@
 
   }
 
-  function PreachEnable(){
-    preach_button.prop('disabled', false).removeClass('disabled1').addClass('button1');
+  function makeboxEnable(){
+    makebox_button.prop('disabled', false).removeClass('disabled1').addClass('button1');
   }
-  function PreachDisable(){
-    preach_button.prop('disabled', true).removeClass('button1').addClass('disabled1');
+  function makeboxDisable(){
+    makebox_button.prop('disabled', true).removeClass('button1').addClass('disabled1');
   }
   function PrayEnable(){
     pray_button.prop('disabled', false).removeClass('disabled1').addClass('button1');
@@ -1328,7 +1328,7 @@
   <!--PLAYER-->
   <table id="player_table">
     <tr>
-      <td>Rank: <span id="rank_label"><b>Preacher</b></span></td>
+      <td>Rank: <span id="rank_label"><b>boxmaker</b></span></td>
     </tr>
     <tr id="holiness_block" style="display:none">
       <td class="prestige_counter" id="holiness_sign">Holiness: <span id="holiness_label">0</span>/<span id="holiness_limit_label">1 k</span></td>
@@ -1337,10 +1337,10 @@
       <td class="prestige_counter">Holiness: Complete Saint</td>
     </tr>
     <tr>
-      <td><div id="preach_pb" class="pb"><div></div></div></td>
+      <td><div id="makebox_pb" class="pb"><div></div></div></td>
     </tr>
     <tr>
-      <td><button class="button1" id="preach_button">Preach</button><button class="button1" id="pray_button" style="display:none">Pray</button></td>
+      <td><button class="button1" id="makebox_button">makebox</button><button class="button1" id="pray_button" style="display:none">Pray</button></td>
     </tr>
   </table>
 
@@ -1392,8 +1392,8 @@
     </tr>
     <tr class="prestige_item">
       <td class="store_item_content">
-        Group psychosis. Increase the effectiveness of preaching by 10<br><br>
-        <button class="button2" id="preaching_prestige_upgrade">Restart Game</button>
+        Group psychosis. Increase the effectiveness of makeboxing by 10<br><br>
+        <button class="button2" id="makeboxing_prestige_upgrade">Restart Game</button>
       </td>
     </tr>
     <tr class="prestige_item">
@@ -1417,12 +1417,12 @@
       <td class="upgrades_container">
         <table class="store">
 
-          <tr class="store_item" id="preacher_block">
+          <tr class="store_item" id="boxmaker_block">
             <td class="store_item_content">
-              Recruit preachers to help you spread the word<br>
-              Preachers: <span id="preacher_label">0</span><br><br>
-              <div id="preacher_pb" class="pb2" style="display:none"><div></div></div><br>
-              <button class="disabled2" id="preacher_upgrade">10 boxes</button>
+              Recruit boxmakers to help you spread the word<br>
+              boxmakers: <span id="boxmaker_label">0</span><br><br>
+              <div id="boxmaker_pb" class="pb2" style="display:none"><div></div></div><br>
+              <button class="disabled2" id="boxmaker_upgrade">10 boxes</button>
             </td>
           </tr>
 
