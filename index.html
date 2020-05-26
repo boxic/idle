@@ -19,21 +19,21 @@
   var holiness=0;
   var holiness_limit=1000;
   var holiness_level=0;
-  var rank="<b>boxmaker</b>";
+  var rank="<b>immigrant</b>";
   var money=0;
 
   //ENTITIES
   var boxes=0;
-  var boxmakers=0;
-  var monks=0;
-  var churches=0;
+  var immigrants=0;
+  var homelesss=0;
+  var dumpsteres=0;
 
   //LOOPS
-  var boxmaker_interval;
-  var monk_interval;
+  var immigrant_interval;
+  var homeless_interval;
   var pray_interval;
   var makebox_interval;
-  var wedding_interval;
+  var dumsterdive_interval;
   var holywater_interval;
   var pilgrim_interval;
   var sins_interval;
@@ -42,11 +42,11 @@
   var dj_interval;
 
   //PRICES
-  var boxmaker_upgrade_price=10;
-  var church_upgrade_price=1000000;
-  var small_church_upgrade_price=100000;//fixed price, no need to save
-  var monastery_upgrade_price=500000;
-  var monk_upgrade_price=1000;
+  var immigrant_upgrade_price=10;
+  var dumpster_upgrade_price=1000000;
+  var small_dumpster_upgrade_price=100000;//fixed price, no need to save
+  var shelter_upgrade_price=500000;
+  var homeless_upgrade_price=1000;
   var cathedral_upgrade_price=50000000;//fixed price, no need to save
   var vatican_upgrade_price=500000000;//fixed price, no need to save
   var bishop_upgrade_price=500000;
@@ -59,7 +59,7 @@
 
   //MANUAL
   var holywater_speed=2000;
-  var wedding_speed=1000;
+  var dumsterdive_speed=1000;
   var sins_speed=4000;
   var tax_speed=3000;
   var dj_speed=3000;
@@ -73,10 +73,10 @@
 
   //UI
   var store_table_flag=0;
-  var small_church_block_flag=1;//shown by default
-  var monastery_block_flag=0;
+  var small_dumpster_block_flag=1;//shown by default
+  var shelter_block_flag=0;
   var cathedral_block_flag=0;
-  var css_flag=2;//dark by default
+  var css_flag=1;//light by default
   var prestige_hide_flag=0;//not hidden by default
   var statue_upgrade_flag=0;
   var vatican_upgrade_flag=0;
@@ -87,34 +87,34 @@
   var makebox_button;
   var boxes_label;
   var store_table;
-  var boxmaker_upgrade;
-  var church_upgrade;
-  var church_label;
-  var boxmaker_label;
-  var boxmaker_pb;
+  var immigrant_upgrade;
+  var dumpster_upgrade;
+  var dumpster_label;
+  var immigrant_label;
+  var immigrant_pb;
   var rank_label;
   var prestige_table;
   var prestige_counter;
   var prestige_limit_label;
   var prestige_label;
   var money_label;
-  var wedding_upgrade;
-  var wedding_pb;
-  var wedding_block;
+  var dumsterdive_upgrade;
+  var dumsterdive_pb;
+  var dumsterdive_block;
   var pray_button;
   var holiness_block;
   var dark;
   var light;
-  var small_church_upgrade;
-  var small_church_block;
-  var church_block;
-  var monastery_block;
+  var small_dumpster_upgrade;
+  var small_dumpster_block;
+  var dumpster_block;
+  var shelter_block;
   var holiness_label;
-  var monastery_upgrade;
-  var monk_block;
-  var monk_label;
-  var monk_upgrade;
-  var monk_pb;
+  var shelter_upgrade;
+  var homeless_block;
+  var homeless_label;
+  var homeless_upgrade;
+  var homeless_pb;
   var holiness_limit_label;
   var holywater_pb;
   var holywater_block;
@@ -199,34 +199,34 @@
     holywater_block=$("#holywater_block");
     holywater_pb=$("#holywater_pb");
     holiness_limit_label=$("#holiness_limit_label");
-    monk_pb=$("#monk_pb");
-    monk_upgrade=$("#monk_upgrade");
-    monk_label=$("#monk_label");
-    monk_block=$("#monk_block");
-    monastery_upgrade=$("#monastery_upgrade");
+    homeless_pb=$("#homeless_pb");
+    homeless_upgrade=$("#homeless_upgrade");
+    homeless_label=$("#homeless_label");
+    homeless_block=$("#homeless_block");
+    shelter_upgrade=$("#shelter_upgrade");
     holiness_label=$("#holiness_label");
-    monastery_block=$("#monastery_block");
-    church_block=$("#church_block");
-    small_church_block=$("#small_church_block");
-    small_church_upgrade=$("#small_church_upgrade");
+    shelter_block=$("#shelter_block");
+    dumpster_block=$("#dumpster_block");
+    small_dumpster_block=$("#small_dumpster_block");
+    small_dumpster_upgrade=$("#small_dumpster_upgrade");
     dark=$("#dark");
     light=$("#light");
     holiness_block=$("#holiness_block");
     pray_button=$("#pray_button");
-    wedding_block=$("#wedding_block");
-    wedding_upgrade=$("#wedding_upgrade");
-    wedding_pb=$("#wedding_pb");
+    dumsterdive_block=$("#dumsterdive_block");
+    dumsterdive_upgrade=$("#dumsterdive_upgrade");
+    dumsterdive_pb=$("#dumsterdive_pb");
     money_label=$("#money_label");
     prestige_label=$("#prestige_label");
     prestige_limit_label=$("#prestige_limit_label");
     prestige_counter=$("#prestige_counter");
     prestige_table=$("#prestige_table");
     rank_label=$("#rank_label");
-    boxmaker_pb=$("#boxmaker_pb");
-    boxmaker_label=$("#boxmaker_label");
-    church_label=$("#church_label");
-    church_upgrade=$("#church_upgrade");
-    boxmaker_upgrade=$("#boxmaker_upgrade");
+    immigrant_pb=$("#immigrant_pb");
+    immigrant_label=$("#immigrant_label");
+    dumpster_label=$("#dumpster_label");
+    dumpster_upgrade=$("#dumpster_upgrade");
+    immigrant_upgrade=$("#immigrant_upgrade");
     store_table=$("#store_table");
     boxes_label=$("#boxes_label");
     makebox_pb=$("#makebox_pb");
@@ -294,40 +294,40 @@
       LoadGame();
     });
 
-    boxmaker_upgrade.click(function(){
+    immigrant_upgrade.click(function(){
       PlayAudio(1);
 
 
-      boxmakers++;
-      boxmaker_label.text(boxmakers);
+      immigrants++;
+      immigrant_label.text(immigrants);
 
-      boxmaker_upgrade_price=Math.floor(boxmaker_upgrade_price+boxmaker_upgrade_price*0.8);
-      boxmaker_upgrade.text( numT(boxmaker_upgrade_price) + " boxes" );
+      immigrant_upgrade_price=Math.floor(immigrant_upgrade_price+immigrant_upgrade_price*0.8);
+      immigrant_upgrade.text( numT(immigrant_upgrade_price) + " boxes" );
       InventoryUpdate();
 
-      if(boxmakers==1){
-        boxmaker();
+      if(immigrants==1){
+        immigrant();
       }
 
 
 
     });
 
-    monk_upgrade.click(function(){
+    homeless_upgrade.click(function(){
       PlayAudio(1);
 
-      monks++;
-      monk_label.text(monks);
+      homelesss++;
+      homeless_label.text(homelesss);
 
-      money=money-monk_upgrade_price;
+      money=money-homeless_upgrade_price;
       InventoryUpdate();
 
-      monk_upgrade_price=Math.floor(monk_upgrade_price+monk_upgrade_price*0.5);
-      monk_upgrade.text( "$" + numT(monk_upgrade_price) );
+      homeless_upgrade_price=Math.floor(homeless_upgrade_price+homeless_upgrade_price*0.5);
+      homeless_upgrade.text( "$" + numT(homeless_upgrade_price) );
       InventoryUpdate();
 
-      if(monks==1){
-      Monk();
+      if(homelesss==1){
+      homeless();
       }
     });
 
@@ -341,24 +341,24 @@
       Pray();
     });
 
-    wedding_upgrade.click(function(){
+    dumsterdive_upgrade.click(function(){
 
       var num=0;
 
       PlayAudio(1);
 
-      wedding_pb.show();
-      wedding_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');
+      dumsterdive_pb.show();
+      dumsterdive_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');
 
-      wedding_interval=setInterval(function(){
+      dumsterdive_interval=setInterval(function(){
         num++;
-        progress(num,wedding_pb);
+        progress(num,dumsterdive_pb);
 
         if(num>=100){
-          clearInterval(wedding_interval);
-          progress(0,wedding_pb);
-          //wedding_pb.hide();
-          wedding_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');
+          clearInterval(dumsterdive_interval);
+          progress(0,dumsterdive_pb);
+          //dumsterdive_pb.hide();
+          dumsterdive_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');
           money+=50000;
           PrestigeUpdate(1000);
           InventoryUpdate();
@@ -367,7 +367,7 @@
 
 
 
-      },wedding_speed*speed_multiplier);
+      },dumsterdive_speed*speed_multiplier);
     });
 
     dj_upgrade.click(function(){
@@ -572,46 +572,46 @@
 
     });
 
-    monastery_upgrade.click(function(){
+    shelter_upgrade.click(function(){
       PlayAudio(5);
-      money=money-monastery_upgrade_price;
+      money=money-shelter_upgrade_price;
       InventoryUpdate();
 
-      monk_block.show();
-      monastery_block.hide();
-      monastery_block_flag=2;//so that it's never shown again
+      homeless_block.show();
+      shelter_block.hide();
+      shelter_block_flag=2;//so that it's never shown again
     });
 
-    small_church_upgrade.click(function(){
+    small_dumpster_upgrade.click(function(){
 
-      money=money-small_church_upgrade_price;
+      money=money-small_dumpster_upgrade_price;
 
       PlayAudio(5);
 
       holiness_block.show();
       pray_button.show();
       makebox_button.hide();
-      if(boxmakers<=0){
-        boxmakers++;
-        boxmaker_label.text(boxmakers);
-        boxmaker();
+      if(immigrants<=0){
+        immigrants++;
+        immigrant_label.text(immigrants);
+        immigrant();
       }
 
       rank="<b>Local Minister</b>";
       rank_label.html(rank);
-      wedding_block.show();
-      church_block.show();
-      small_church_block.hide();
-      small_church_block_flag=2;
+      dumsterdive_block.show();
+      dumpster_block.show();
+      small_dumpster_block.hide();
+      small_dumpster_block_flag=2;
 
 
       InventoryUpdate();
 
     });
 
-    church_upgrade.click(function(){
+    dumpster_upgrade.click(function(){
       PlayAudio(5);
-      BuildChurch();
+      Builddumpster();
     });
 
     cathedral_upgrade.click(function(){
@@ -622,7 +622,7 @@
 
       cathedral_block_flag=2;
       cathedral_block.hide();
-      church_block.hide();
+      dumpster_block.hide();
 
       if(pilgrimage==1){
       statue_upgrade_flag=1;
@@ -634,7 +634,7 @@
 
       money=money-cathedral_upgrade_price;
 
-      boxes+=500000*churches;
+      boxes+=500000*dumpsteres;
 
       SaveGame();
       InventoryUpdate();
@@ -691,7 +691,7 @@
 
       if(tax<10){
         tax=10;
-        $("#tax_prestige_text").text("Lobbying. Increase church tax by $5 per box");
+        $("#tax_prestige_text").text("Lobbying. Increase dumpster tax by $5 per box");
       }
       else{tax+=5;}
 
@@ -739,25 +739,25 @@
     }, 10);
   }
 
-  function Monk(){
+  function homeless(){
 
       var num=0;
 
-      monk_pb.show();
+      homeless_pb.show();
 
-      monk_interval=setInterval(function() {
+      homeless_interval=setInterval(function() {
 
         num++;
         if(num>100)num=0;
-        progress(num,monk_pb);
+        progress(num,homeless_pb);
 
         if(num>=100){
-          holiness+=monks*praying_multiplier;
+          holiness+=homelesss*praying_multiplier;
           HolinessUpdate();
 
           InventoryUpdate();
 
-          PrestigeUpdate(100*monks);
+          PrestigeUpdate(100*homelesss);
           PlayAudio(3);
 
         }
@@ -801,24 +801,24 @@
     }, 10);
   }
 
-  function boxmaker(){
+  function immigrant(){
 
       var num=0;
 
-      boxmaker_pb.show();
+      immigrant_pb.show();
 
-      boxmaker_interval=setInterval(function() {
+      immigrant_interval=setInterval(function() {
 
         num++;
         if(num>100)num=0;
-        progress(num,boxmaker_pb);
+        progress(num,immigrant_pb);
 
         if(num>=100){
-          boxes+=boxmakers*makeboxing_multiplier;
-          money+=(Math.floor((Math.random() * 500) + 1))*boxmakers*makeboxing_multiplier;
+          boxes+=immigrants*makeboxing_multiplier;
+          money+=(Math.floor((Math.random() * 500) + 1))*immigrants*makeboxing_multiplier;
           InventoryUpdate();
 
-          PrestigeUpdate(1*boxmakers*makeboxing_multiplier);
+          PrestigeUpdate(1*immigrants*makeboxing_multiplier);
           PlayAudio(3);
 
         }
@@ -827,36 +827,36 @@
 
   }
 
-  function BuildChurch(){
+  function Builddumpster(){
 
-    churches++;
+    dumpsteres++;
 
-    if(churches<10){
-      church_label.text(churches+"/10");
-    }else{church_label.text(churches);}
+    if(dumpsteres<10){
+      dumpster_label.text(dumpsteres+"/10");
+    }else{dumpster_label.text(dumpsteres);}
 
 
-    boxes+=5000*churches;
+    boxes+=5000*dumpsteres;
 
-    money=money-church_upgrade_price;
+    money=money-dumpster_upgrade_price;
 
-    church_upgrade_price=Math.ceil(church_upgrade_price+church_upgrade_price*0.3);
+    dumpster_upgrade_price=Math.ceil(dumpster_upgrade_price+dumpster_upgrade_price*0.3);
 
-    if(churches==1){
+    if(dumpsteres==1){
       rank="<b>Priest</b>";
       rank_label.html(rank);
       PlayAudio(8);
       SaveGame();
     }
 
-    if(churches==10){
+    if(dumpsteres==10){
       cathedral_block_flag=1;
       cathedral_block.show();
       PlayAudio(4);
       SaveGame();
     }
 
-    church_upgrade.text("$" + numT(church_upgrade_price));
+    dumpster_upgrade.text("$" + numT(dumpster_upgrade_price));
     InventoryUpdate();
 
     PrestigeUpdate(10000);
@@ -865,9 +865,9 @@
   function SaveGame(){
     let gameData = {
       player: [money,prestige_progress,prestige_limit,rank,holiness,holiness_limit],
-      entities: [boxes,boxmakers,monks,churches],
-      ui: [css_flag,store_table_flag,monastery_block_flag,small_church_block_flag,cathedral_block_flag,statue_upgrade_flag,vatican_upgrade_flag,bishop_upgrade_flag],
-      prices: [boxmaker_upgrade_price,church_upgrade_price,monk_upgrade_price,bishop_upgrade_price],
+      entities: [boxes,immigrants,homelesss,dumpsteres],
+      ui: [css_flag,store_table_flag,shelter_block_flag,small_dumpster_block_flag,cathedral_block_flag,statue_upgrade_flag,vatican_upgrade_flag,bishop_upgrade_flag],
+      prices: [immigrant_upgrade_price,dumpster_upgrade_price,homeless_upgrade_price,bishop_upgrade_price],
       prestige: [pilgrimage,speed_multiplier,makeboxing_multiplier,tax,praying_multiplier]
     };
     //let gameDataJSON = JSON.stringify(gameData);
@@ -918,17 +918,17 @@
 
     //ENTITIES
     boxes=parseInt(gameData.entities[0]);//set by InventoryUpdate()
-    boxmakers=parseInt(gameData.entities[1]);boxmaker_label.text(boxmakers);if(boxmakers>0){boxmaker();}
-    monks=parseInt(gameData.entities[2]);monk_label.text(monks);if(monks>0){setTimeout('Monk();',250);monk_block.show();}
-    churches=parseInt(gameData.entities[3]);
-                if(churches<10){
-                  church_label.text(churches+"/10");
-                }else{church_label.text(churches);}
+    immigrants=parseInt(gameData.entities[1]);immigrant_label.text(immigrants);if(immigrants>0){immigrant();}
+    homelesss=parseInt(gameData.entities[2]);homeless_label.text(homelesss);if(homelesss>0){setTimeout('homeless();',250);homeless_block.show();}
+    dumpsteres=parseInt(gameData.entities[3]);
+                if(dumpsteres<10){
+                  dumpster_label.text(dumpsteres+"/10");
+                }else{dumpster_label.text(dumpsteres);}
 
     //PRICES
-    boxmaker_upgrade_price=parseInt(gameData.prices[0]);boxmaker_upgrade.text( numT(boxmaker_upgrade_price) + " boxes" );
-    church_upgrade_price=parseInt(gameData.prices[1]);church_upgrade.text("$" + numT(church_upgrade_price));
-    monk_upgrade_price=parseInt(gameData.prices[2]);monk_upgrade.text( "$" + numT(monk_upgrade_price) );
+    immigrant_upgrade_price=parseInt(gameData.prices[0]);immigrant_upgrade.text( numT(immigrant_upgrade_price) + " boxes" );
+    dumpster_upgrade_price=parseInt(gameData.prices[1]);dumpster_upgrade.text("$" + numT(dumpster_upgrade_price));
+    homeless_upgrade_price=parseInt(gameData.prices[2]);homeless_upgrade.text( "$" + numT(homeless_upgrade_price) );
     bishop_upgrade_price=parseInt(gameData.prices[3]);bishop_upgrade.text( "$" + numT(bishop_upgrade_price) );
 
     //UI
@@ -951,25 +951,25 @@
                   pilgrimage=2;
                 }
     cathedral_block_flag=parseInt(gameData.ui[4]);
-                if(churches>=5 && cathedral_block_flag==1){
+                if(dumpsteres>=5 && cathedral_block_flag==1){
                   cathedral_block.show();
                 }
-    small_church_block_flag=parseInt(gameData.ui[3]);
-                if(small_church_block_flag==1){
-                  small_church_block.show();
+    small_dumpster_block_flag=parseInt(gameData.ui[3]);
+                if(small_dumpster_block_flag==1){
+                  small_dumpster_block.show();
                 }else{
-                  small_church_block.hide();
+                  small_dumpster_block.hide();
                   if(holiness<13000){holiness_block.show();}
                   pray_button.show();
                   makebox_button.hide();
 
-                  wedding_block.show();
-                  if(cathedral_block_flag!=2){church_block.show();}
+                  dumsterdive_block.show();
+                  if(cathedral_block_flag!=2){dumpster_block.show();}
                 }
 
-    monastery_block_flag=parseInt(gameData.ui[2]);
-                if(monastery_block_flag==1){
-                  monastery_block.show();
+    shelter_block_flag=parseInt(gameData.ui[2]);
+                if(shelter_block_flag==1){
+                  shelter_block.show();
                 }
 
     store_table_flag=parseInt(gameData.ui[1]);
@@ -1014,7 +1014,7 @@
                 }
 
     if(tax>=10){
-      $("#tax_prestige_text").text("Lobbying. Increase church tax by $5 per box");
+      $("#tax_prestige_text").text("Lobbying. Increase dumpster tax by $5 per box");
     }
 
     InventoryUpdate();
@@ -1062,9 +1062,9 @@
 
     }
 
-    if(monastery_block_flag==0 && holiness>=5){
-      monastery_block_flag=1;
-      monastery_block.show();
+    if(shelter_block_flag==0 && holiness>=5){
+      shelter_block_flag=1;
+      shelter_block.show();
       PlayAudio(7);
     }
 
@@ -1098,19 +1098,19 @@
     holiness=0;holiness_label.text(0);
     holiness_limit=1000;holiness_limit_label.text(numT(holiness_limit));
     holiness_level=0;
-    rank="<b>boxmaker</b>";rank_label.html(rank);
+    rank="<b>immigrant</b>";rank_label.html(rank);
     money=0;money_label.text(numT(money));
 
     //ENTITIES
     boxes=0;boxes_label.text(boxes);
-    boxmakers=0;boxmaker_label.text(boxmakers);
-    monks=0;monk_label.text(monks);
-    churches=0;church_label.text("0/10");
+    immigrants=0;immigrant_label.text(immigrants);
+    homelesss=0;homeless_label.text(homelesss);
+    dumpsteres=0;dumpster_label.text("0/10");
 
     //LOOPS
-    clearInterval(boxmaker_interval);
-    clearInterval(monk_interval);
-    clearInterval(wedding_interval);
+    clearInterval(immigrant_interval);
+    clearInterval(homeless_interval);
+    clearInterval(dumsterdive_interval);
     clearInterval(holywater_interval);
     clearInterval(makebox_interval);
     clearInterval(pray_interval);
@@ -1121,7 +1121,7 @@
 
     //UI
     store_table.hide();
-    wedding_block.hide();
+    dumsterdive_block.hide();
     dj_block.hide();
     holywater_block.hide();
     sins_block.hide();
@@ -1131,11 +1131,11 @@
     vatican_block.hide();
     bishop_block.hide();
     pope_block.hide();
-    monastery_block.hide();
-    monk_block.hide();
-    church_block.hide();
+    shelter_block.hide();
+    homeless_block.hide();
+    dumpster_block.hide();
     cathedral_block.hide();
-    small_church_block.show();
+    small_dumpster_block.show();
     holiness_block.hide();
     holiness_complete_block.hide();
     pray_button.hide();
@@ -1148,16 +1148,16 @@
     //progress bars
     sins_pb.hide();progress(0,sins_pb);
     tax_pb.hide();progress(0,tax_pb);
-    wedding_pb.hide();progress(0,wedding_pb);
+    dumsterdive_pb.hide();progress(0,dumsterdive_pb);
     holywater_pb.hide();progress(0,holywater_pb);
-    boxmaker_pb.hide();progress(0,boxmaker_pb);
-    monk_pb.hide();progress(0,monk_pb);
+    immigrant_pb.hide();progress(0,immigrant_pb);
+    homeless_pb.hide();progress(0,homeless_pb);
     tele_pb.hide();progress(0,tele_pb);
     dj_pb.hide();progress(0,dj_pb);
     progress(0,makebox_pb);
     //buttons (these are "truck" loops, not managed by StoreState)
     holywater_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');
-    wedding_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');
+    dumsterdive_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');
     tax_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');
     sins_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');
     dj_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');
@@ -1165,8 +1165,8 @@
 
     //ui flags
     store_table_flag=0;
-    monastery_block_flag=0;
-    small_church_block_flag=1;
+    shelter_block_flag=0;
+    small_dumpster_block_flag=1;
     cathedral_block_flag=0;
     prestige_hide_flag=0;
     statue_upgrade_flag=0;
@@ -1174,12 +1174,12 @@
     bishop_upgrade_flag=0;
 
     //PRICES
-    boxmaker_upgrade_price=10;boxmaker_upgrade.text( numT(boxmaker_upgrade_price) + " boxes" );
-    church_upgrade_price=1000000;church_upgrade.text( "$" + numT(church_upgrade_price) );
-    small_church_upgrade_price=100000;//fixed price
-    monastery_upgrade_price=500000;//fixed price
+    immigrant_upgrade_price=10;immigrant_upgrade.text( numT(immigrant_upgrade_price) + " boxes" );
+    dumpster_upgrade_price=1000000;dumpster_upgrade.text( "$" + numT(dumpster_upgrade_price) );
+    small_dumpster_upgrade_price=100000;//fixed price
+    shelter_upgrade_price=500000;//fixed price
     vatican_upgrade_price=500000000;vatican_upgrade.text( "$" + numT(vatican_upgrade_price) ); //fixed price
-    monk_upgrade_price=1000;monk_upgrade.text( "$" + numT(monk_upgrade_price) );
+    homeless_upgrade_price=1000;homeless_upgrade.text( "$" + numT(homeless_upgrade_price) );
     bishop_upgrade_price=500000;bishop_upgrade.text( "$" + numT(bishop_upgrade_price) );
 
     //PRESTIGE VARIABLES
@@ -1210,20 +1210,20 @@
 
   function StoreState(){
 
-    if(boxes-boxmaker_upgrade_price>=0){boxmaker_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
-    else{boxmaker_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');}
+    if(boxes-immigrant_upgrade_price>=0){immigrant_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
+    else{immigrant_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');}
 
-    if(money-small_church_upgrade_price>=0){small_church_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
-    else{small_church_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');}
+    if(money-small_dumpster_upgrade_price>=0){small_dumpster_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
+    else{small_dumpster_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');}
 
-    if(money-church_upgrade_price>=0){church_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
-    else{church_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');}
+    if(money-dumpster_upgrade_price>=0){dumpster_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
+    else{dumpster_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');}
 
-    if(money-monastery_upgrade_price>=0){monastery_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
-    else{monastery_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');}
+    if(money-shelter_upgrade_price>=0){shelter_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
+    else{shelter_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');}
 
-    if(money-monk_upgrade_price>=0){monk_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
-    else{monk_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');}
+    if(money-homeless_upgrade_price>=0){homeless_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
+    else{homeless_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');}
 
     if(money-cathedral_upgrade_price>=0){cathedral_upgrade.prop('disabled', false).removeClass('disabled2').addClass('button2');}
     else{cathedral_upgrade.prop('disabled', true).removeClass('button2').addClass('disabled2');}
@@ -1241,9 +1241,9 @@
 
   function EndGame(){
     //LOOPS
-    clearInterval(boxmaker_interval);
-    clearInterval(monk_interval);
-    clearInterval(wedding_interval);
+    clearInterval(immigrant_interval);
+    clearInterval(homeless_interval);
+    clearInterval(dumsterdive_interval);
     clearInterval(holywater_interval);
     clearInterval(makebox_interval);
     clearInterval(pray_interval);
@@ -1312,7 +1312,7 @@
       case 1: $("#audio_click")[0].cloneNode(true).play(); break;
       case 2: $("#audio_box")[0].cloneNode(true).play(); break;
       case 3: $("#audio_tick")[0].cloneNode(true).play(); break;
-      case 4: $("#audio_church")[0].cloneNode(true).play(); break;
+      case 4: $("#audio_dumpster")[0].cloneNode(true).play(); break;
       case 5: $("#audio_building")[0].cloneNode(true).play(); break;
       case 6: $("#audio_prestige")[0].cloneNode(true).play(); break;
       case 7: $("#audio_holiness")[0].cloneNode(true).play(); break;
@@ -1328,7 +1328,7 @@
   <!--PLAYER-->
   <table id="player_table">
     <tr>
-      <td>Rank: <span id="rank_label"><b>boxmaker</b></span></td>
+      <td>Rank: <span id="rank_label"><b>immigrant</b></span></td>
     </tr>
     <tr id="holiness_block" style="display:none">
       <td class="prestige_counter" id="holiness_sign">Holiness: <span id="holiness_label">0</span>/<span id="holiness_limit_label">1 k</span></td>
@@ -1404,7 +1404,7 @@
     </tr>
     <tr class="prestige_item">
       <td class="store_item_content">
-        <span id="tax_prestige_text">Lobbying. Increase church tax to $10 per box</span><br>
+        <span id="tax_prestige_text">Lobbying. Increase dumpster tax to $10 per box</span><br>
         Current tax: $<span id=current_tax_label>1</span><br><br>
         <button class="button2" id="tax_prestige_upgrade">Restart Game</button>
       </td>
@@ -1417,19 +1417,19 @@
       <td class="upgrades_container">
         <table class="store">
 
-          <tr class="store_item" id="boxmaker_block">
+          <tr class="store_item" id="immigrant_block">
             <td class="store_item_content">
-              Recruit boxmakers to help you spread the word<br>
-              boxmakers: <span id="boxmaker_label">0</span><br><br>
-              <div id="boxmaker_pb" class="pb2" style="display:none"><div></div></div><br>
-              <button class="disabled2" id="boxmaker_upgrade">10 boxes</button>
+              Recruit illegal immigrants to help you make boxes<br>
+              immigrants: <span id="immigrant_label">0</span><br><br>
+              <div id="immigrant_pb" class="pb2" style="display:none"><div></div></div><br>
+              <button class="disabled2" id="immigrant_upgrade">10 boxes</button>
             </td>
           </tr>
 
-          <tr class="store_item" id="small_church_block">
+          <tr class="store_item" id="small_dumpster_block">
             <td class="store_item_content">
-              Set up a small house church<br><br>
-              <button class="disabled2" id="small_church_upgrade">$100 k</button>
+              Scout out local dumpsters<br><br>
+              <button class="disabled2" id="small_dumpster_upgrade">$100 k</button>
             </td>
           </tr>
 
@@ -1441,27 +1441,27 @@
             </td>
           </tr>
 
-          <tr class="store_item" id="church_block" style="display:none">
+          <tr class="store_item" id="dumpster_block" style="display:none">
             <td class="store_item_content">
-              Build a church. Every church adds more boxes<br>
-              Churches: <span id="church_label">0/5</span><br><br>
-              <button class="disabled2" id="church_upgrade">$2 M</button>
+              Build a dumpster. Every dumpster adds more boxes<br>
+              dumpsteres: <span id="dumpster_label">0/5</span><br><br>
+              <button class="disabled2" id="dumpster_upgrade">$2 M</button>
             </td>
           </tr>
 
-          <tr class="store_item" id="monk_block" style="display:none">
+          <tr class="store_item" id="homeless_block" style="display:none">
             <td class="store_item_content">
-              Invite a monk to make your mission holier<br>
-              Monks: <span id="monk_label">0</span><br><br>
-              <div id="monk_pb" class="pb2" style="display:none"><div></div></div><br>
-              <button class="disabled2" id="monk_upgrade">$1 k</button>
+              Invite homeless to work in exchance for shelter<br>
+              homeless: <span id="homeless_label">0</span><br><br>
+              <div id="homeless_pb" class="pb2" style="display:none"><div></div></div><br>
+              <button class="disabled2" id="homeless_upgrade">$1 k</button>
             </td>
           </tr>
 
-          <tr class="store_item" id="monastery_block" style="display:none">
+          <tr class="store_item" id="shelter_block" style="display:none">
             <td class="store_item_content">
-              Build a monastery<br><br>
-              <button class="disabled2" id="monastery_upgrade">$500 k</button>
+              Build a shelter<br><br>
+              <button class="disabled2" id="shelter_upgrade">$500 k</button>
             </td>
           </tr>
 
@@ -1501,11 +1501,11 @@
       <td class="upgrades_container">
         <table class="store">
 
-          <tr class="store_item" id="wedding_block" style="display:none">
+          <tr class="store_item" id="dumsterdive_block" style="display:none">
             <td class="store_item_content">
-              Conduct a wedding ceremony<br><br>
-              <div id="wedding_pb" class="pb2" style="display:none"><div></div></div><br>
-              <button class="button2" id="wedding_upgrade">Earn $50 k</button>
+              Dumster dive for more boxes<br><br>
+              <div id="dumsterdive_pb" class="pb2" style="display:none"><div></div></div><br>
+              <button class="button2" id="dumsterdive_upgrade">Earn $50 k</button>
             </td>
           </tr>
 
@@ -1527,7 +1527,7 @@
 
           <tr class="store_item" id="dj_block" style="display:none">
             <td class="store_item_content">
-              Rent out a church for an epic DJ performance<br><br>
+              Rent out a dumpster for an epic DJ performance<br><br>
               <div id="dj_pb" class="pb2" style="display:none"><div></div></div><br>
               <button class="button2" id="dj_upgrade">Earn $500 k</button>
             </td>
@@ -1535,7 +1535,7 @@
 
           <tr class="store_item" id="tax_block" style="display:none">
             <td class="store_item_content">
-              Collect church tax<br><br>
+              Collect dumpster tax<br><br>
               <div id="tax_pb" class="pb2" style="display:none"><div></div></div><br>
               <button class="button2" id="tax_upgrade">$1 per box</button>
             </td>
@@ -1560,7 +1560,7 @@
 
   <!--ENDGAME-->
   <div id="endgame_block" style="display:none;width:50%">
-    You are now <b>Pope</b>, head of the worldwide Catholic Church, and head of state of Vatican City. Your spiritual influence extends across a billion people.
+    You are now <b>Pope</b>, head of the worldwide Catholic dumpster, and head of state of Vatican City. Your spiritual influence extends across a billion people.
   </div>
 
 </div>
@@ -1572,13 +1572,13 @@
 <div class="footer">
   <button class="button2" id="dark">Dark mode</button>
   <button class="button2" id="light" style="display:none">Light mode</button>
-  <span class="signature"><a class="standard" href="https://twitter.com/BoxicKnowsBest">Louigi Verona's Workshop</a></span>
+  <span class="signature"><a class="standard" href="https://twitter.com/BoxicKnowsBest">Follow me on twitter!</a></span>
 </div>
 
 <audio id="audio_tick" src="snd/tick2.wav" preload="auto"></audio>
 <audio id="audio_click" src="snd/click4.wav" preload="auto"></audio>
 <audio id="audio_box" src="snd/box2.wav" preload="auto"></audio>
-<audio id="audio_church" src="snd/church2.wav" preload="auto"></audio>
+<audio id="audio_dumpster" src="snd/dumpster2.wav" preload="auto"></audio>
 <audio id="audio_prestige" src="snd/prestige.wav" preload="auto"></audio>
 <audio id="audio_building" src="snd/building.wav" preload="auto"></audio>
 <audio id="audio_holiness" src="snd/holiness.wav" preload="auto"></audio>
